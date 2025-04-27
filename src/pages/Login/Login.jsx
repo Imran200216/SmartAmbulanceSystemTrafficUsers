@@ -20,13 +20,27 @@ const Login = () => {
     // Simulate an async login process (e.g., API call)
     setTimeout(() => {
       console.log("Logged in successfully");
+
+      // navigate to home screen
+      navigateToHome();
+
       setIsLoading(false);
-    }, 2000); // Simulate a 2-second delay
+    }, 2000);
   };
 
   // Navigate to forget password screen
   const navigateToForgetPassword = () => {
-    navigate("/forgot-password"); 
+    navigate("/forgot-password");
+  };
+
+  // Navigate to the sign up screen
+  const navigateToSignUp = () => {
+    navigate("/sign-up");
+  };
+
+  // Navigate to the Home screen
+  const navigateToHome = () => {
+    navigate("/home");
   };
 
   return (
@@ -73,6 +87,16 @@ const Login = () => {
             onClick={handleLogin}
             isLoading={isLoading}
           />
+        </div>
+
+        {/* new to  have an account */}
+        <div className="flex justify-center mt-4">
+          <p className="text-sm font-kumbh text-gray-500">
+            Don't have an account?{" "}
+            <button className="text-blue-500" onClick={navigateToSignUp}>
+              Sign Up
+            </button>
+          </p>
         </div>
       </div>
     </div>
