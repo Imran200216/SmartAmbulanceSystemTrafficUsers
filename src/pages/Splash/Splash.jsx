@@ -1,29 +1,33 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SplashLogo from "../../assets/splash.svg";
+import SplashLogo from "../../assets/svg/splash.svg";
 
 const Splash = () => {
-  // React Router
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isFirstVisit = localStorage.getItem("splashStatus");
+    const splashStatusBox = localStorage.getItem("userSplashStatus");
+    const authStatusBox = localStorage.getItem("userAuthStatus");
 
-    if (!isFirstVisit) {
-      // Set a flag indicating the splash screen has been shown
-      localStorage.setItem("splashStatus", "true");
+    if (!splashStatusBox) {
+      // First time opening the app
+      localStorage.setItem("userSplashStatus", "true");
 
-      // Set a timer to navigate after 3 seconds
+      // Show splash screen for 3 seconds, then go to login
       const timer = setTimeout(() => {
-        // Login screen
         navigate("/login");
       }, 3000);
 
-      // Clear the timer on cleanup
       return () => clearTimeout(timer);
     } else {
-      // If already visited, skip splash screen and go directly to login
-      navigate("/login");
+      // Splash already shown
+      if (authStatusBox === "true") {
+        // If user is already authenticated
+        navigate("/home");
+      } else {
+        // Splash shown but user not authenticated
+        navigate("/login");
+      }
     }
   }, [navigate]);
 

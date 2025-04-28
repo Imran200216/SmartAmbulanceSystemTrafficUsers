@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
+import { ChevronFirst, ChevronLast, LogOut } from "lucide-react";
 
 const Sidebar = ({ children }) => {
   const [expanded, setExpanded] = useState(true); // initially expanded
@@ -45,7 +45,7 @@ const Sidebar = ({ children }) => {
                 <h4 className="font-semibold font-kumbh">Imran B</h4>
                 <span className="text-xs text-gray-600">imran@gmail.com</span>
               </div>
-              <MoreVertical size={20} />
+              <LogOut size={20} />
             </div>
           )}
         </div>

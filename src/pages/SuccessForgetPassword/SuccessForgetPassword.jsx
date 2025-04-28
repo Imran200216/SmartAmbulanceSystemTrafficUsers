@@ -1,6 +1,7 @@
 import React from "react";
-import SuccesMailImg from "../../assets/success-mail.svg";
+import SuccesMailImg from "../../assets/svg/success-mail.svg";
 import ForgetPasswordSucceessButton from "../../components/Button";
+import TextButton from "../../components/TextButton";
 import { useNavigate } from "react-router-dom";
 
 const SuccessForgetPassword = () => {
@@ -14,7 +15,7 @@ const SuccessForgetPassword = () => {
 
   // Navigate to forget password screen
   const handleNavigationToForgetPassword = () => {
-    navigate("/forget-password");
+    navigate("/forgot-password");
   };
 
   return (

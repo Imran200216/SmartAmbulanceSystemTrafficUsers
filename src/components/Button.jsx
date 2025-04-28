@@ -6,6 +6,7 @@ const Button = ({ title, onClick, isLoading }) => {
     <button
       className="mt-3 mb-3 bg-[#1AC0F8] text-white px-4 py-2 rounded-md hover:bg-[#16a8d4] transition duration-200 w-full flex items-center justify-center"
       onClick={onClick}
+      
       disabled={isLoading} 
     >
       {isLoading ? (
