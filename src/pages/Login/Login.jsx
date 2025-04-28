@@ -3,29 +3,80 @@ import InputField from "../../components/InputField";
 import LoginButton from "../../components/Button";
 import TextButton from "../../components/TextButton";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
 const Login = () => {
   // hooks
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-  // If using React Router for navigation
+  //React Router for navigation
   const navigate = useNavigate();
 
-  // handle login
-  const handleLogin = () => {
+  // Handle login
+  const handleLogin = async () => {
+    // Reset errors
+    setEmailError("");
+    setPasswordError("");
+
+    // Validate email and password
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    if (!password) {
+      setPasswordError("Password is required");
+      return;
+    }
+
     setIsLoading(true);
 
-    // Simulate an async login process (e.g., API call)
-    setTimeout(() => {
-      console.log("Logged in successfully");
+    // Log the data being sent to the server
+    console.log("Email:", email, "Password:", password);
 
-      // navigate to home screen
+    try {
+      const response = await axios.post("http://192.168.1.103:8000/login", {
+        email,
+        password,
+      });
+
+      console.log("Login successful", response.data);
+
+      // Store the auth session in localStorage
+      localStorage.setItem("userAuthStatus", "true");
+
+      // Show success toast
+      toast.success("Login successful!");
+
+      // After successful login, navigate to Home screen
       navigateToHome();
+    } catch (error) {
+      console.error("Login failed", error.response?.data || error.message);
 
+      // Error state
+      setError(error.response?.data?.detail || "Login failed");
+
+      // Show Failure toast
+      toast.error("Login Failed!");
+
+      // Alert
+      alert(error.response?.data?.detail || "Login failed");
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   // Navigate to forget password screen
@@ -55,22 +106,32 @@ const Login = () => {
         </p>
 
         {/* Email text field */}
-        <InputField
-          label="Email Address"
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="mb-4">
+          <InputField
+            label="Email Address"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {emailError && (
+            <p className="text-red-500 text-sm mt-2">{emailError}</p>
+          )}
+        </div>
 
-        {/* Password text field  */}
-        <InputField
-          label="Password"
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        {/* Password text field */}
+        <div className="mb-4">
+          <InputField
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {passwordError && (
+            <p className="text-red-500 text-sm mt-2">{passwordError}</p>
+          )}
+        </div>
 
         {/* Forget password text btn */}
         <div className="flex flex-row justify-end mt-4 mb-10">
@@ -99,6 +160,9 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+      {/* Toast notifications container */}
+      <ToastContainer />
     </div>
   );
 };
