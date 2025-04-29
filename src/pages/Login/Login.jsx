@@ -1,7 +1,5 @@
 import { useState } from "react";
-import InputField from "../../components/InputField";
-import LoginButton from "../../components/Button";
-import TextButton from "../../components/TextButton";
+import { InputField, Button, TextButton } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
@@ -14,6 +12,9 @@ const Login = () => {
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  // FASTAPI Base Url
+  const BASE_URL = "http://192.168.1.103:8000";
 
   //React Router for navigation
   const navigate = useNavigate();
@@ -48,10 +49,13 @@ const Login = () => {
     console.log("Email:", email, "Password:", password);
 
     try {
-      const response = await axios.post("http://192.168.1.103:8000/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${BASE_URL}/email_password_login`,
+        {
+          email,
+          password,
+        }
+      );
 
       console.log("Login successful", response.data);
 
@@ -143,11 +147,7 @@ const Login = () => {
 
         {/* Login Button with margin */}
         <div className="mt-5 mb-5 w-full">
-          <LoginButton
-            title="Login"
-            onClick={handleLogin}
-            isLoading={isLoading}
-          />
+          <Button title="Login" onClick={handleLogin} isLoading={isLoading} />
         </div>
 
         {/* new to  have an account */}

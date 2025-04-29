@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronFirst, ChevronLast, LogOut } from "lucide-react";
 
-const Sidebar = ({ children }) => {
+export const Sidebar = ({ children }) => {
   const [expanded, setExpanded] = useState(true); // initially expanded
 
   return (
@@ -54,4 +54,4 @@ const Sidebar = ({ children }) => {
   );
 };
 
-export default Sidebar;
+

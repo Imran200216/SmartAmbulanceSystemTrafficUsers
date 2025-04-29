@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputField from "../../components/InputField";
-import ResetPasswordButton from "../../components/Button";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { InputField, Button } from "../../components";
 
 const ForgetPassword = () => {
   // hooks
@@ -11,6 +10,9 @@ const ForgetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
+
+  // FASTAPI Base Url
+  const BASE_URL = "http://192.168.1.103:8000";
 
   // router
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ const ForgetPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.103:8000/forget_password",
+        `${BASE_URL}/forget_password`,
         {
           email,
         }
@@ -106,7 +108,7 @@ const ForgetPassword = () => {
 
         {/* Reset Button */}
         <div className="mt-5 mb-5 w-full">
-          <ResetPasswordButton
+          <Button
             isLoading={isLoading}
             title="Reset Password"
             onClick={handleForgetPasswordSentLink}

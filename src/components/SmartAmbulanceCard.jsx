@@ -1,6 +1,6 @@
 import React from "react";
 
-const SmartAmbulanceCard = ({
+export const SmartAmbulanceCard = ({
   employeeEmail,
   employeeId,
   hospitalAddress,
@@ -45,4 +45,4 @@ const SmartAmbulanceCard = ({
   );
 };
 
-export default SmartAmbulanceCard;
+

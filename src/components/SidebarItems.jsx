@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-const SidebarItems = ({ icon, text, active, alert, expanded }) => {
+export const SidebarItems = ({ icon, text, active, alert, expanded }) => {
   return (
     <li
       className={clsx(
@@ -25,4 +25,4 @@ const SidebarItems = ({ icon, text, active, alert, expanded }) => {
   );
 };
 
-export default SidebarItems;
+

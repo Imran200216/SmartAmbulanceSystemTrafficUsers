@@ -1,7 +1,7 @@
 import React from "react";
 import Lottie from "lottie-react";
 
-const Fallback = ({ lottie, text }) => {
+export const Fallback = ({ lottie, text }) => {
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       {/* Lottie animation */}
@@ -17,4 +17,3 @@ const Fallback = ({ lottie, text }) => {
   );
 };
 
-export default Fallback;

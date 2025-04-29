@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import SidebarItems from "../../components/SidebarItems";
 import { House } from "lucide-react";
-import SmartAmbulanceCard from "../../components/SmartAmbulanceCard";
 import axios from "axios";
-import Fallback from "../../components/Fallback";
 import ItemNotFoundAnimation from "../../assets/lottie/Item-not-found.json";
 import InternetNotFoundAnimation from "../../assets/lottie/Internet-not-found.json";
 import LoadingAnimation from "../../assets/lottie/Loading.json";
+import {
+  SmartAmbulanceCard,
+  Fallback,
+  Sidebar,
+  SidebarItems,
+} from "../../components";
 
 const Home = () => {
   // Hooks
@@ -15,12 +17,17 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(true);
 
+
+  // FASTAPI Base Url
+  const BASE_URL ="http://192.168.1.103:8000";
+
+
   // Fetch ambulance status
   useEffect(() => {
     const fetchAmbulanceStatus = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.1.103:8000/ambulance_status_records"
+          `${BASE_URL}/ambulance_status_records`
         );
         console.log(response.data);
         setAmbulanceData(response.data);

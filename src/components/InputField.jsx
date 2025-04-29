@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import clsx from "clsx";
 
-const InputField = ({ label, type, placeholder, value, onChange }) => {
+export const InputField = ({ label, type, placeholder, value, onChange }) => {
   // hooks
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,4 +43,4 @@ const InputField = ({ label, type, placeholder, value, onChange }) => {
   );
 };
 
-export default InputField;
+

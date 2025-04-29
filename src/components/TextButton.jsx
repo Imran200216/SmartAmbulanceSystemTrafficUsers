@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextButton = ({ title, onClick, href }) => {
+export const TextButton = ({ title, onClick, href }) => {
   return (
     <div>
       <a
@@ -13,5 +13,3 @@ const TextButton = ({ title, onClick, href }) => {
     </div>
   );
 };
-
-export default TextButton;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-const Button = ({ title, onClick, isLoading }) => {
+ export const Button = ({ title, onClick, isLoading }) => {
   return (
     <button
       className="mt-3 mb-3 bg-[#1AC0F8] text-white px-4 py-2 rounded-md hover:bg-[#16a8d4] transition duration-200 w-full flex items-center justify-center"
@@ -22,4 +22,4 @@ const Button = ({ title, onClick, isLoading }) => {
   );
 };
 
-export default Button;
+// export default Button;

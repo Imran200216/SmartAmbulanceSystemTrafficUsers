@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField";
-import SignUpButton from "../../components/Button";
+import { InputField, Button } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
-const SignUp = () => { 
+const SignUp = () => {
   // hooks
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -13,6 +12,9 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // FASTAPI Base Url
+  const BASE_URL = "http://192.168.1.103:8000";
 
   // React Router for navigation
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.103:8000/email_password_sign_up",
+        `${BASE_URL}/email_password_sign_up`,
         {
           username,
           email,
@@ -142,7 +144,7 @@ const SignUp = () => {
 
         {/* Sign Up Button */}
         <div className="mt-5 mb-5 w-full">
-          <SignUpButton
+          <Button
             title="Sign Up"
             onClick={handleSignUp}
             isLoading={isLoading}

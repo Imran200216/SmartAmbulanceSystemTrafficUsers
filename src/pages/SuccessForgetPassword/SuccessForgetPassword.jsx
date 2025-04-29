@@ -1,7 +1,6 @@
 import React from "react";
 import SuccesMailImg from "../../assets/svg/success-mail.svg";
-import ForgetPasswordSucceessButton from "../../components/Button";
-import TextButton from "../../components/TextButton";
+import { Button, TextButton } from "../../components";
 import { useNavigate } from "react-router-dom";
 
 const SuccessForgetPassword = () => {
@@ -41,7 +40,7 @@ const SuccessForgetPassword = () => {
         </p>
 
         {/* Back to Login Button */}
-        <ForgetPasswordSucceessButton
+        <Button
           title="Back to Login"
           onClick={handleNavigationToLogin}
           className="w-[80%] max-w-[300px] mx-auto"
