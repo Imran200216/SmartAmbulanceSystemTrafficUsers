@@ -58,6 +58,12 @@ const SignUp = () => {
       // Store the auth session in localStorage
       localStorage.setItem("userAuthStatus", "true");
 
+      // Store the auth session in localStorage
+      localStorage.setItem("idToken", response.data.access_token);
+      localStorage.setItem("refreshToken", response.data.refresh_token); // if available
+      localStorage.setItem("userEmail", response.data.user_email);
+      localStorage.setItem("userAuthStatus", "true");
+
       // Show success toast
       toast.success("Sign Up successful!");
 

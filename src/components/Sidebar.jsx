@@ -4,11 +4,11 @@ import { ChevronFirst, ChevronLast, LogOut } from "lucide-react";
 export const Sidebar = ({
   sideBarLogo,
   children,
-  onLogOutClick,
+  onLogOutClick,   
   userName,
   userEmailAddress,
 }) => {
-  const [expanded, setExpanded] = useState(true); // initially expanded
+  const [expanded, setExpanded] = useState(true); 
 
   return (
     <aside className="h-screen">
