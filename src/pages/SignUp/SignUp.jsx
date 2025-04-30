@@ -47,14 +47,11 @@ const SignUp = () => {
     console.log("Username:", username, "Email:", email, "Password:", password);
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/email_password_sign_up`,
-        {
-          username,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/email_password_sign_up`, {
+        username,
+        email,
+        password,
+      });
 
       console.log("Sign up successful", response.data);
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import ItemNotFoundAnimation from "../../assets/lottie/Item-not-found.json";
 import InternetNotFoundAnimation from "../../assets/lottie/Internet-not-found.json";
 import LoadingAnimation from "../../assets/lottie/Loading.json";
+import SAS from "../../assets/svg/splash.svg";
 import {
   SmartAmbulanceCard,
   Fallback,
@@ -16,30 +17,28 @@ const Home = () => {
   const [ambulanceData, setAmbulanceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(true);
-
+  const [userInfo, setUserInfo] = useState(null);
 
   // FASTAPI Base Url
-  const BASE_URL ="http://192.168.1.103:8000";
-
+  const BASE_URL = "http://192.168.1.103:8000";
 
   // Fetch ambulance status
   useEffect(() => {
     const fetchAmbulanceStatus = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/ambulance_status_records`
-        );
-        console.log(response.data);
-        setAmbulanceData(response.data);
-      } catch (error) {
-        console.error("Error fetching ambulance status records:", error);
+        const response = await axios.get(`${BASE_URL}/user_info`, {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
 
-        // If request fails, check if it's a network error
-        if (!window.navigator.onLine) {
-          setIsOnline(false);
-        }
-      } finally {
-        setLoading(false);
+        console.log("User Info:", response.data);
+        setUserInfo(response.data); // <-- store user info here
+      } catch (error) {
+        console.error(
+          "Error fetching user info:",
+          error.response?.data || error.message
+        );
       }
     };
 
@@ -56,11 +55,93 @@ const Home = () => {
     };
   }, []);
 
+  // fetching the current user details
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const idToken = localStorage.getItem("idToken");
+
+      if (!idToken) {
+        console.error("ID Token not found");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${BASE_URL}/user_info`, {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+
+        console.log("User Info:", response.data);
+        setUserInfo(response.data); // Set username & email
+      } catch (error) {
+        console.error(
+          "Error fetching user info:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchUserInfo();
+
+    // Listen for online/offline changes
+    window.addEventListener("online", () => setIsOnline(true));
+    window.addEventListener("offline", () => setIsOnline(false));
+
+    return () => {
+      window.removeEventListener("online", () => setIsOnline(true));
+      window.removeEventListener("offline", () => setIsOnline(false));
+    };
+  }, []);
+
+  // Logout Functionality
+  const HandleLogOut = async () => {
+    const token = localStorage.getItem("idToken");
+
+    if (!token) {
+      console.warn("No token found in local storage");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/log_out`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Logout failed:", error.detail);
+        return;
+      }
+
+      // Successfully logged out
+      localStorage.removeItem("idToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("userEmail");
+
+      // Redirect or update app state
+      window.location.href = "/login"; // or use navigation logic
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
   return (
     <div className="flex">
       <Sidebar>
         {/* Sidebar Menu Items */}
-        <SidebarItems icon={<House size={20} />} text="Home" active />
+        <SidebarItems
+          sideBarLogo={SAS}
+          onLogOutClick={HandleLogOut}
+          userName={userInfo?.userName}
+          userEmailAddress={userInfo?.userEmailAddress}
+          icon={<House size={20} />}
+          text="Home"
+          active
+        />
       </Sidebar>
 
       {/* Main content */}
